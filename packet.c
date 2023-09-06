@@ -8,6 +8,7 @@
 
 */
 #include <stdint.h>
+#include <stddef.h> //for NULL
 
 struct Header{
     uint8_t formHeader; //The form header must have 1 bit
@@ -21,7 +22,7 @@ struct Header{
     //there is also the version specific data but i didn't put it here for now
 };
 
-void shortHeader(struct Header Header){
+void longHeader(struct Header Header){
     Header.formHeader = 0x01;
     Header.versionSpecific = 0x00;
     Header.version = NULL;//after creation of package, must be changed to other version(I need to create supported versions list in array)
@@ -31,9 +32,8 @@ void shortHeader(struct Header Header){
     Header.OConnID = 0x00;
 };
 
-void longHeader(struct Header Header){//function to create a initial long header
+void shortHeader(struct Header Header){//function to create a initial long header
     Header.formHeader = 0x00;
-    Header.versionSpecific;
     Header.versionSpecific = 0x00;
     Header.DConnIDLen = 0x00;
     Header.DConnID = 0x00;
