@@ -1,5 +1,8 @@
 {
     "files.associations": {
         "stdint.h": "c"
-    }
+    },
+    "cSpell.words": [
+        "Sversion"
+    ]
 }
