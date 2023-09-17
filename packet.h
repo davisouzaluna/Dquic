@@ -29,4 +29,15 @@ void longHeader(struct Header Header){
 void shortHeader(struct Header Header){//function to create a initial long header
 };
 
+void handshakeHeader(struct Header Header){
+};
+
+void zeroRTTHeader(struct Header Header){
+};
+
+void initialHandshakeHeader(struct Header Header){
+};
+
+void 
+
 #endif
