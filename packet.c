@@ -13,6 +13,7 @@
 
 struct Header{
    uint8_t formHeader; //The form header must have 1 bit
+   uint8_t fixedBit; //The fixed bit must have 1 bit.
    uint8_t versionSpecific; //The form specific must have 7 bits
    uint32_t *version;//The version must have 32 bits and initially(before connection it's null)
    uint8_t DConnIDLen;//The Destination connection length must have 8 bits
@@ -42,9 +43,10 @@ enum HeaderHandshakeType {
 
 int handlePacket(enum HeaderHandshakeType type) {
     struct Header header;
+    struct NEW_TOKEN_Frame newTokenFrame;
     switch (type) {
         case INITIAL:
-                setupInitialPacket(&header);
+                setupInitialPacket(&header ,&newTokenFrame);
             break;
         case ZERO_RTT:
             break;
@@ -58,9 +60,10 @@ int handlePacket(enum HeaderHandshakeType type) {
     return 0; // Return 0 if everything is ok
 };
 
-void setupInitialPacket(struct Header *header){
+void setupInitialPacket(struct Header *header, struct NEW_TOKEN_Frame *newTokenFrame){
     struct Header header;
     header->formHeader = 0x01;
+    header->fixedBit = 1;//fixed bit is 1
     header->versionSpecific = 0x00;
     header->version = NULL;
     header->DConnIDLen = 0x00;
@@ -68,8 +71,12 @@ void setupInitialPacket(struct Header *header){
     header->OConnIDLen = 0x00;
     header->OConnID = 0x00;
     header->Sversion = 0x00;
-    header->initialFields.tokenLength = 0x00;
-    header->initialFields.token = NULL;
+    header->initialFields.tokenLength = 0x00;//initially the token length is 0
+    header->initialFields.token = NULL;//remenber the flag
+
+    newTokenFrame->type = QUIC_NEW_TOKEN_FRAME;
+    newTokenFrame->length = header->initialFields.tokenLength;//same as header struct
+    newTokenFrame->token = header->initialFields.token;
 };
 
 
@@ -94,6 +101,12 @@ enum QUICFrameType {
     QUIC_CONNECTION_CLOSE_FRAME,
     QUIC_HANDSHAKE_DONE_FRAME,
     
+};
+
+struct NEW_TOKEN_Frame {
+    enum QUICFrameType type;
+    uint64_t length;
+    uint8_t *token;
 };
 
 
