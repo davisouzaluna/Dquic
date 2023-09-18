@@ -21,7 +21,57 @@ struct Header{
     uint8_t OConnID;//The  origin connection ID must have 8 bits
    uint32_t Sversion;//Supported version
    //there is also the version specific data but i didn't put it here for now
+    union {
+        struct {
+            uint8_t tokenLength;
+            uint8_t *token;
+        } initialFields;
+        struct {
+            uint8_t *RETRY_token;
+            uint8_t Retry_Integrity_Tag;
+        } retryFields;
+    };
 };
+
+enum HeaderHandshakeType {
+    INITIAL,
+    ZERO_RTT,
+    HANDSHAKE,
+    RETRY,
+};
+
+int handlePacket(enum HeaderHandshakeType type) {
+    struct Header header;
+    switch (type) {
+        case INITIAL:
+                setupInitialPacket(&header);
+            break;
+        case ZERO_RTT:
+            break;
+        case HANDSHAKE:
+            break;
+        case RETRY:
+            break;
+        default:
+            return -1;//error signal
+    }
+    return 0; // Return 0 if everything is ok
+};
+
+void setupInitialPacket(struct Header *header){
+    struct Header header;
+    header->formHeader = 0x01;
+    header->versionSpecific = 0x00;
+    header->version = NULL;
+    header->DConnIDLen = 0x00;
+    header->DConnID = 0x00;
+    header->OConnIDLen = 0x00;
+    header->OConnID = 0x00;
+    header->Sversion = 0x00;
+    header->initialFields.tokenLength = 0x00;
+    header->initialFields.token = NULL;
+};
+
 
 enum QUICFrameType {
     QUIC_STREAM_FRAME,
@@ -45,6 +95,7 @@ enum QUICFrameType {
     QUIC_HANDSHAKE_DONE_FRAME,
     
 };
+
 
 void longHeader(struct Header *header){
     header->formHeader = 0x01;
