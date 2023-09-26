@@ -23,6 +23,7 @@ struct Header {
     uint16_t OConnIDLen;       // The origin connection length must have 16 bits
     uint8_t OConnID;           // The origin connection ID must have 8 bits
     uint32_t Sversion;         // Supported version
+    uint8_t identifyBit;
 
     union {
         struct {

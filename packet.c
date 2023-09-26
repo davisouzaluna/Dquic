@@ -24,6 +24,7 @@ int handlePacket(enum HeaderHandshakeType type) {
         case ZERO_RTT:
             break;
         case HANDSHAKE:
+                setupHandshakePacket(&header);
             break;
         case RETRY:
             break;
@@ -45,6 +46,7 @@ void setupInitialPacket(struct Header *header, struct NEW_TOKEN_Frame *newTokenF
     header->Sversion = 0x00;
     header->initialFields.tokenLength = 0x00;//initially the token length is 0
     header->initialFields.token = NULL;//remenber the flag
+    header->identifyBit = 0x01;
 
     newTokenFrame->type = QUIC_NEW_TOKEN_FRAME;
     newTokenFrame->length = header->initialFields.tokenLength;//same as header struct
@@ -52,7 +54,11 @@ void setupInitialPacket(struct Header *header, struct NEW_TOKEN_Frame *newTokenF
 };
 
 
+void setupHandshakePacket(struct Header *header){
+    longHeader(header);
 
+    header->identifyBit = 0x02;
+};
 
 
 void longHeader(struct Header *header){
