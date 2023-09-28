@@ -24,7 +24,8 @@ struct Header {
     uint8_t OConnID;           // The origin connection ID must have 8 bits
     uint32_t Sversion;         // Supported version
     uint8_t identifyBit;
-
+    uint64_t long_Packet_Type;
+    
     union {
         struct {
             uint8_t tokenLength;
