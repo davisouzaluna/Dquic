@@ -13,6 +13,10 @@
 
 #include <stdint.h>
 
+typedef struct {
+    uint32_t versionNumber; // Defina o tipo de dados correto para o número da versão
+} QUIC_VERSION_INFO;
+
 struct Header {
     uint8_t formHeader;        // The form header must have 1 bit
     uint8_t fixedBit;          // The fixed bit must have 1 bit.
@@ -25,6 +29,7 @@ struct Header {
     uint32_t Sversion;         // Supported version
     uint8_t identifyBit;
     uint64_t long_Packet_Type;
+    uint8_t unused;
     
     union {
         struct {
@@ -45,11 +50,15 @@ enum HeaderHandshakeType {
     RETRY,
 };
 
+const QUIC_VERSION_INFO QuicSupportedVersionList[] = {
+    {0x00000001}  // Exemplo de uma versão suportada (você pode ter mais elementos aqui)
+};//Is necessary to define the array length. I don't know how to do it
+
 int handlePacket(enum HeaderHandshakeType type);
 
 
 
-enum QUICFrameType {
+typedef enum QUICFrameType {
     QUIC_STREAM_FRAME,
     QUIC_ACK_FRAME,
     QUIC_PADDING_FRAME,
@@ -72,14 +81,16 @@ enum QUICFrameType {
 };
 
 struct NEW_TOKEN_Frame {
-    enum QUICFrameType type;
+    enum QUICFrameType type;//I use typedef, but I don't know if it's correct
     uint64_t length;
     uint8_t *token;
 };
+
+
 
 void longHeader(struct Header *header);
 
 void shortHeader(struct Header *header);
 
-void versionNegotiation(struct Header *header);
+void versionNegotiationPacket(struct Header *header, QUIC_VERSION_INFO *versionInfo);
 #endif

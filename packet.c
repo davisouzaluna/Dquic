@@ -9,7 +9,7 @@
 */
 #include <stdint.h>
 #include <stddef.h> //for NULL
-#include "packet.h"
+#include "main.h"
 
 
 
@@ -83,7 +83,7 @@ void setupZeroRTTHeader(struct Header *header){
 
 }
 
-
+/*
 uint8_t* encodePacketSize(uint64_t size, uint8_t *encodedSize) {
     if (size < 64) {
         // Codifica em 1 byte (bits 00)
@@ -138,12 +138,26 @@ uint64_t decodePacketSize(const uint8_t *encodedSize, size_t *bytesRead) {
                ((uint64_t)(encodedSize[7]) << 8) | encodedSize[8];
     }
 }
+*/
+void ConnnID(ConnIDLength){
+uint16_t ConnID[ConnIDLength];
+srand((unsigned int)time(NULL));
+ for(int i=0;i<ConnIDLength;i++){
+     ConnID[i] = (uint16_t)(rand() % 256);//generate random numbers to Connection ID. This is a simple example.
+    }
+};
+
+void versionNegotiationPacket(struct Header *header, QUIC_VERSION_INFO *versionInfo){
+    if(header->DConnID == 0x00){//connect ID is Null
+        ConnnID(header->DConnIDLen);
+    }
+    header->formHeader = 0x01;
+    header->unused = 0x00;//arbitrary bits for server;
+    header->version= 0x00;
+    header->DConnID;
+    //Actually is imcomplete this package. I need to implement the version negotiation packet logic
+
+};
+ 
 
 
-
-
-
-
-void versionNegotiation(struct Header *header) {
-   
-}

@@ -12,11 +12,13 @@
 
 #ifndef HANDSHAKE_H_INCLUDED
 #define HANDSHAKE_H_INCLUDED
+#include "main.h"
 
-void VersionNegotiation(int bitParameter);
 
-void  
+
+  
 
 //I need to link the TLS key and certificate construction file
 #endif
 
+void initHandshake();
