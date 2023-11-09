@@ -1,4 +1,3 @@
-// udp_library.c
 #include "udp_library.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,12 +5,12 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-
+#define MAX_BUFFER_SIZE 1024 // Define a maximum buffer size to 1024 bytes
 
 bool UDP_Init(UDPContext *context, int port) {
     context->sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (context->sockfd < 0) {
-        perror("Error to create the socket");
+        perror("Error creating the socket");
         return false;
     }
 
@@ -23,7 +22,7 @@ bool UDP_Init(UDPContext *context, int port) {
 
     // Bind the socket to the specified port
     if (bind(context->sockfd, (struct sockaddr *)&context->server_addr, sizeof(context->server_addr)) < 0) {
-        perror("Error to bind the socket");
+        perror("Error binding the socket");
         close(context->sockfd);
         return false;
     }
@@ -45,7 +44,7 @@ bool UDP_Send(UDPContext *context, const char *destination_ip, int destination_p
     // Send data to the destination
     int sent_bytes = sendto(context->sockfd, data, data_length, 0, (struct sockaddr *)&dest_addr, sizeof(dest_addr));
     if (sent_bytes < 0) {
-        perror("Erroe to send data");
+        perror("Error sending data");
         return false;
     }
 
@@ -59,7 +58,7 @@ int UDP_Receive(UDPContext *context, char *buffer, int buffer_length) {
     // Receive data from the client
     int received_bytes = recvfrom(context->sockfd, buffer, buffer_length, 0, (struct sockaddr *)&client_addr, &client_len);
     if (received_bytes < 0) {
-        perror("Error to receive data");
+        perror("Error receiving data");
         return -1;
     }
 
