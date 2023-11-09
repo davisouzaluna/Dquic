@@ -4,5 +4,6 @@
     },
     "cSpell.words": [
         "Sversion"
-    ]
+    ],
+    "C_Cpp.errorSquiggles": "disabled"
 }

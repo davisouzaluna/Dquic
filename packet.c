@@ -34,13 +34,27 @@ int handlePacket(enum HeaderHandshakeType type) {
     return 0; // Return 0 if everything is ok
 };
 
+uint8_t ConnnID(DConnIDLen){
+uint8_t ConnID[DConnIDLen];
+srand((unsigned int)time(NULL));
+ for(int i=0;i<DConnIDLen;i++){
+     ConnID[i] = (uint8_t)(rand() % 256);//generate random numbers to Connection ID. This is a simple example.
+    }
+
+    
+    return ConnID;
+};
+
+
 void setupInitialPacket(struct Header *header, struct NEW_TOKEN_Frame *newTokenFrame){
     header->formHeader = 0x01;
     header->fixedBit = 1;//fixed bit is 1
     header->versionSpecific = 0x00;
     header->version = 0x00;
-    header->DConnIDLen = 0x00;
-    header->DConnID = 0x00;
+    header->DConnIDLen = 0x08;
+    uint8_t id = ConnnID( header->DConnIDLen);
+    header->DConnID= id;//ConnectionID;
+    //header->DConnID = ConnectionID;
     header->OConnIDLen = 0x00;
     header->OConnID = 0x00;
     header->Sversion = 0x00;
@@ -139,13 +153,6 @@ uint64_t decodePacketSize(const uint8_t *encodedSize, size_t *bytesRead) {
     }
 }
 */
-void ConnnID(ConnIDLength){
-uint16_t ConnID[ConnIDLength];
-srand((unsigned int)time(NULL));
- for(int i=0;i<ConnIDLength;i++){
-     ConnID[i] = (uint16_t)(rand() % 256);//generate random numbers to Connection ID. This is a simple example.
-    }
-};
 
 void versionNegotiationPacket(struct Header *header, QUIC_VERSION_INFO *versionInfo){
     if(header->DConnID == 0x00){//connect ID is Null

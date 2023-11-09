@@ -50,9 +50,7 @@ enum HeaderHandshakeType {
     RETRY,
 };
 
-const QUIC_VERSION_INFO QuicSupportedVersionList[] = {
-    {0x00000001}  // Exemplo de uma versão suportada (você pode ter mais elementos aqui)
-};//Is necessary to define the array length. I don't know how to do it
+
 
 int handlePacket(enum HeaderHandshakeType type);
 
