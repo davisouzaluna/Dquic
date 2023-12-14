@@ -19,3 +19,5 @@ int main() {
 
     return 0;
 }
+
+// gcc test.c packet.c -o saidaM

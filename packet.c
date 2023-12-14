@@ -8,7 +8,10 @@
 
 */
 #include <stdint.h>
+#include <stdio.h> //for printf
 #include <stddef.h> //for NULL
+#include <stdlib.h> //for malloc
+#include <time.h> //for srand
 #include "main.h"
 
 
@@ -34,25 +37,34 @@ int handlePacket(enum HeaderHandshakeType type) {
     return 0; // Return 0 if everything is ok
 };
 
-uint8_t ConnnID(DConnIDLen){
-uint8_t ConnID[DConnIDLen];
-srand((unsigned int)time(NULL));
- for(int i=0;i<DConnIDLen;i++){
-     ConnID[i] = (uint8_t)(rand() % 256);//generate random numbers to Connection ID. This is a simple example.
+uint8_t* ConnnID(size_t DConnIDLen) {
+    uint8_t* ConnID = (uint8_t*)malloc(DConnIDLen);  // Aloca memória dinâmica para o Connection ID
+    if (ConnID == NULL) {
+        fprintf(stderr, "Erro ao alocar memória para o Connection ID\n");
+        exit(EXIT_FAILURE);
     }
 
-    
-    return ConnID;
-};
+    srand((unsigned int)time(NULL));
 
+    for (size_t i = 0; i < DConnIDLen; i++) {
+        ConnID[i] = (uint8_t)(rand() % 256);
+    }
+
+    return ConnID;
+}
+
+void freeConnID(uint8_t* ConnID) {
+    free(ConnID);  // Free the memory allocated for the Connection ID
+}
 
 void setupInitialPacket(struct Header *header, struct NEW_TOKEN_Frame *newTokenFrame){
     header->formHeader = 0x01;
     header->fixedBit = 1;//fixed bit is 1
     header->versionSpecific = 0x00;
     header->version = 0x00;
-    header->DConnIDLen = 0x08;
-    uint8_t id = ConnnID( header->DConnIDLen);
+    size_t DConnIDLens = 8;
+    header->DConnIDLen = DConnIDLens;
+    uint8_t* id = ConnnID( header->DConnIDLen);
     header->DConnID= id;//ConnectionID;
     //header->DConnID = ConnectionID;
     header->OConnIDLen = 0x00;

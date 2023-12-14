@@ -17,6 +17,7 @@ typedef struct {
     uint32_t versionNumber; // Defina o tipo de dados correto para o número da versão
 } QUIC_VERSION_INFO;
 
+struct NEW_TOKEN_Frame;
 struct Header {
     uint8_t formHeader;        // The form header must have 1 bit
     uint8_t fixedBit;          // The fixed bit must have 1 bit.
@@ -50,13 +51,14 @@ enum HeaderHandshakeType {
     RETRY,
 };
 
-
-
+void setupZeroRTTHeader(struct Header *header);
+void setupInitialPacket(struct Header *header, struct NEW_TOKEN_Frame *newTokenFrame);
 int handlePacket(enum HeaderHandshakeType type);
 
 
 
-typedef enum QUICFrameType {
+
+enum QUICFrameType {
     QUIC_STREAM_FRAME,
     QUIC_ACK_FRAME,
     QUIC_PADDING_FRAME,
