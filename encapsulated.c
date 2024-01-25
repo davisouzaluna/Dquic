@@ -1,4 +1,12 @@
-// encapsulated.c
+/*
+    Davi Souza de Luna
+
+    Licensed under the MIT License.
+
+    Abstract:
+        This file contains the implementation of the encapsulated QUIC header. 
+
+*/
 
 #include <stdio.h>
 #include <stdbool.h>
