@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "stdint.h": "c",
-        "handshake.h": "c"
+        "handshake.h": "c",
+        "frame_struct.h": "c"
     },
     "cSpell.words": [
         "Sversion"
