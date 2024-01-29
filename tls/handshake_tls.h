@@ -28,7 +28,7 @@ enum {
       } HandshakeType;
 
 */
-
+#include <stdint.h>
 typedef enum {
     client_hello = 1,
     server_hello = 2,
@@ -43,20 +43,25 @@ typedef enum {
     message_hash = 254,
     max_value = 255
 } HandshakeType;
+/*
+struct bitfield24 {
+  uint32_t value : 24;
+};
+*/
+typedef struct{
+    HandshakeType msg_type;    /* handshake type */
+    uint24 length;             /* remaining bytes in message */
+    select (Handshake.msg_type) {
+        case client_hello:          ClientHello;
+        case server_hello:          ServerHello;
+        case end_of_early_data:     EndOfEarlyData;
+        case encrypted_extensions:  EncryptedExtensions;
+        case certificate_request:   CertificateRequest;
+        case certificate:           Certificate;
+        case certificate_verify:    CertificateVerify;
+        case finished:              Finished;
+        case new_session_ticket:    NewSessionTicket;
+        case key_update:            KeyUpdate;
+    };
+} Handshake;
 
-      struct Handshake{
-          HandshakeType msg_type;    /* handshake type */
-          uint24 length;             /* remaining bytes in message */
-          select (Handshake.msg_type) {
-              case client_hello:          ClientHello;
-              case server_hello:          ServerHello;
-              case end_of_early_data:     EndOfEarlyData;
-              case encrypted_extensions:  EncryptedExtensions;
-              case certificate_request:   CertificateRequest;
-              case certificate:           Certificate;
-              case certificate_verify:    CertificateVerify;
-              case finished:              Finished;
-              case new_session_ticket:    NewSessionTicket;
-              case key_update:            KeyUpdate;
-          };
-      }Handshake;
