@@ -42,24 +42,31 @@ typedef enum frameType{
 /*Is necessary to implement the logic to decode and encode the frames, because after the encoding the frames will be sent to the server in an UDP packet.*/
 
 typedef struct PADDING_FRAME{
-    uint8_t type = PADDING;
+    uint8_t type;// PADDING;
     }PADDING_FRAME;
 
+bool encodePADDING_FRAME(PADDING_FRAME *paddingFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodePADDING_FRAME(PADDING_FRAME *paddingFrame, uint8_t *buffer, size_t *bufferLength);
+
 typedef struct PING_FRAME{
-    uint8_t type= PING;
+    uint8_t type;// PING;
     }PING_FRAME;
+bool encodePING_FRAME(PING_FRAME *pingFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodePING_FRAME(PING_FRAME *pingFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct ACK_FRAME{
-    uint8_t type= ACK;
+    uint8_t type;// ACK;
     int largestAcknowledged;
     int ackDelay;
     int ackRangeCount;
     int firstAckRange;
     //is necessary to has a review of this frame
     }ACK_FRAME;
+bool encodeACK_FRAME(ACK_FRAME *ackFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeACK_FRAME(ACK_FRAME *ackFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct ACK_ECN_FRAME{
-    uint8_t type= ACK_ECN;
+    uint8_t type;// ACK_ECN;
     int largestAcknowledged;
     int ackDelay;
     int ackRangeCount;
@@ -68,125 +75,166 @@ typedef struct ACK_ECN_FRAME{
     int ecnSection;
 
     }ACK_ECN_FRAME;
+bool encodeACK_ECN_FRAME(ACK_ECN_FRAME *ackEcnFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeACK_ECN_FRAME(ACK_ECN_FRAME *ackEcnFrame, uint8_t *buffer, size_t *bufferLength);
+
 
 typedef struct RESET_STREAM_FRAME{
-    uint8_t type= RESET_STREAM;
+    uint8_t type;// RESET_STREAM;
     int streamId;
     int applicationErrorCode;
     int finalSize;
     }RESET_STREAM_FRAME;
+bool encodeRESET_STREAM_FRAME(RESET_STREAM_FRAME *resetStreamFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeRESET_STREAM_FRAME(RESET_STREAM_FRAME *resetStreamFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct STOP_SENDING_FRAME{
-    uint8_t type= STOP_SENDING;
+    uint8_t type;// STOP_SENDING;
     int streamId;
     int applicationErrorCode;
     }STOP_SENDING_FRAME;
+bool encodeSTOP_SENDING_FRAME(STOP_SENDING_FRAME *stopSendingFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeSTOP_SENDING_FRAME(STOP_SENDING_FRAME *stopSendingFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct CRYPTO_FRAME{
-    uint8_t type= CRYPTO;
+    uint8_t type;// CRYPTO;
     int offset;
     int length;
     int cryptoData;
     }CRYPTO_FRAME;
+bool encodeCRYPTO_FRAME(CRYPTO_FRAME *cryptoFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeCRYPTO_FRAME(CRYPTO_FRAME *cryptoFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct NEW_TOKEN_FRAME{
-    uint8_t type= NEW_TOKEN;
+    uint8_t type;//= NEW_TOKEN;
     int length;
     int token;
     }NEW_TOKEN_FRAME;
+bool encodeNEW_TOKEN_FRAME(NEW_TOKEN_FRAME *newTokenFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeNEW_TOKEN_FRAME(NEW_TOKEN_FRAME *newTokenFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct STREAM_FRAME{    
-    uint8_t type= STREAM;
+    uint8_t type;// STREAM;
     int streamId;
     int offset;
     int length;
     int streamData;
     }STREAM_FRAME;
+bool encodeSTREAM_FRAME(STREAM_FRAME *streamFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeSTREAM_FRAME(STREAM_FRAME *streamFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct MAX_DATA_FRAME{
-    uint8_t type= MAX_DATA;
+    uint8_t type;// MAX_DATA;
     int maximumData;
     }MAX_DATA_FRAME;
+bool encodeMAX_DATA_FRAME(MAX_DATA_FRAME *maxDataFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeMAX_DATA_FRAME(MAX_DATA_FRAME *maxDataFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct MAX_STREAM_DATA_FRAME{
-    uint8_t type= MAX_STREAM_DATA;
+    uint8_t type;// MAX_STREAM_DATA;
     int streamId;
     int maximumStreamData;
     }MAX_STREAM_DATA_FRAME;
-
+bool encodeMAX_STREAM_DATA_FRAME(MAX_STREAM_DATA_FRAME *maxStreamDataFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeMAX_STREAM_DATA_FRAME(MAX_STREAM_DATA_FRAME *maxStreamDataFrame, uint8_t *buffer, size_t *bufferLength);
 //Bidirecional streams
 typedef struct MAX_STREAMS_BIDI_FRAME{
-    uint8_t type= MAX_STREAMS_BIDI;
+    uint8_t type;// MAX_STREAMS_BIDI;
     int maximumStreamsBidi;
     }MAX_STREAMS_BIDI_FRAME;
-
+bool encodeMAX_STREAMS_BIDI_FRAME(MAX_STREAMS_BIDI_FRAME *maxStreamsBidiFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeMAX_STREAMS_BIDI_FRAME(MAX_STREAMS_BIDI_FRAME *maxStreamsBidiFrame, uint8_t *buffer, size_t *bufferLength);
 //Unidirecional streams
 typedef struct MAX_STREAMS_UNI_FRAME{
-    uint8_t type= MAX_STREAMS_UNI;
+    uint8_t type;// MAX_STREAMS_UNI;
     int maximumStreamsUni;
     }MAX_STREAMS_UNI_FRAME;
+bool encodeMAX_STREAMS_UNI_FRAME(MAX_STREAMS_UNI_FRAME *maxStreamsUniFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeMAX_STREAMS_UNI_FRAME(MAX_STREAMS_UNI_FRAME *maxStreamsUniFrame, uint8_t *buffer, size_t *bufferLength);
 
 
 typedef struct DATA_BLOCKED_FRAME{
-    uint8_t type= DATA_BLOCKED;
+    uint8_t type;// DATA_BLOCKED;
     int dataLimit;
     }DATA_BLOCKED_FRAME;
+bool encodeDATA_BLOCKED_FRAME(DATA_BLOCKED_FRAME *dataBlockedFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeDATA_BLOCKED_FRAME(DATA_BLOCKED_FRAME *dataBlockedFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct STREAM_DATA_BLOCKED_FRAME{
-    uint8_t type= STREAM_DATA_BLOCKED;
+    uint8_t type;// STREAM_DATA_BLOCKED;
     int streamId;
     int dataLimit;
     }STREAM_DATA_BLOCKED_FRAME;
+bool encodeSTREAM_DATA_BLOCKED_FRAME(STREAM_DATA_BLOCKED_FRAME *streamDataBlockedFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeSTREAM_DATA_BLOCKED_FRAME(STREAM_DATA_BLOCKED_FRAME *streamDataBlockedFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct STREAMS_BLOCKED_BIDI_FRAME{
-    uint8_t type= STREAMS_BLOCKED_BIDI;
+    uint8_t type;// STREAMS_BLOCKED_BIDI;
     int streamLimit;
     }STREAMS_BLOCKED_BIDI_FRAME;
+bool encodeSTREAMS_BLOCKED_BIDI_FRAME(STREAMS_BLOCKED_BIDI_FRAME *streamsBlockedBidiFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeSTREAMS_BLOCKED_BIDI_FRAME(STREAMS_BLOCKED_BIDI_FRAME *streamsBlockedBidiFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct STREAMS_BLOCKED_UNI_FRAME{
-    uint8_t type= STREAMS_BLOCKED_UNI;
+    uint8_t type;// STREAMS_BLOCKED_UNI;
     int streamLimit;
     }STREAMS_BLOCKED_UNI_FRAME;
+bool encodeSTREAMS_BLOCKED_UNI_FRAME(STREAMS_BLOCKED_UNI_FRAME *streamsBlockedUniFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeSTREAMS_BLOCKED_UNI_FRAME(STREAMS_BLOCKED_UNI_FRAME *streamsBlockedUniFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct NEW_CONNECTION_ID_FRAME{
-    uint8_t type= NEW_CONNECTION_ID;
+    uint8_t type;// NEW_CONNECTION_ID;
     int sequenceNumber;
     int connectionId;
     int statelessResetToken;
     }NEW_CONNECTION_ID_FRAME;
+bool encodeNEW_CONNECTION_ID_FRAME(NEW_CONNECTION_ID_FRAME *newConnectionIdFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeNEW_CONNECTION_ID_FRAME(NEW_CONNECTION_ID_FRAME *newConnectionIdFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct RETIRE_CONNECTION_ID_FRAME{
-    uint8_t type= RETIRE_CONNECTION_ID;
+    uint8_t type;// RETIRE_CONNECTION_ID;
     int sequenceNumber;
     }RETIRE_CONNECTION_ID_FRAME;
+bool encodeRETIRE_CONNECTION_ID_FRAME(RETIRE_CONNECTION_ID_FRAME *retireConnectionIdFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeRETIRE_CONNECTION_ID_FRAME(RETIRE_CONNECTION_ID_FRAME *retireConnectionIdFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct PATH_CHALLENGE_FRAME{    
-    uint8_t type= PATH_CHALLENGE;
+    uint8_t type;// PATH_CHALLENGE;
     int data;
     }PATH_CHALLENGE_FRAME;
+bool encodePATH_CHALLENGE_FRAME(PATH_CHALLENGE_FRAME *pathChallengeFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodePATH_CHALLENGE_FRAME(PATH_CHALLENGE_FRAME *pathChallengeFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct PATH_RESPONSE_FRAME{
-    uint8_t type= PATH_RESPONSE;
+    uint8_t type;// PATH_RESPONSE;
     int data;
     }PATH_RESPONSE_FRAME;
+bool encodePATH_RESPONSE_FRAME(PATH_RESPONSE_FRAME *pathResponseFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodePATH_RESPONSE_FRAME(PATH_RESPONSE_FRAME *pathResponseFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct CONNECTION_CLOSE_FRAME{
-    uint8_t type= CONNECTION_CLOSE;
+    uint8_t type;// CONNECTION_CLOSE;
     int errorCode;
     int frameType;
     int reasonPhrase;
     }CONNECTION_CLOSE_FRAME;
+bool encodeCONNECTION_CLOSE_FRAME(CONNECTION_CLOSE_FRAME *connectionCloseFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeCONNECTION_CLOSE_FRAME(CONNECTION_CLOSE_FRAME *connectionCloseFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct APPLICATION_CLOSE_FRAME{
-    uint8_t type= APPLICATION_CLOSE;
+    uint8_t type;// APPLICATION_CLOSE;
     int errorCode;
     int frameType;
     int reasonPhrase;
     }APPLICATION_CLOSE_FRAME;
+bool encodeAPPLICATION_CLOSE_FRAME(APPLICATION_CLOSE_FRAME *applicationCloseFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeAPPLICATION_CLOSE_FRAME(APPLICATION_CLOSE_FRAME *applicationCloseFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct HANDSHAKE_DONE_FRAME{
-    uint8_t type= HANDSHAKE_DONE;
+    uint8_t type;// HANDSHAKE_DONE;
     }HANDSHAKE_DONE_FRAME;
+bool encodeHANDSHAKE_DONE_FRAME(HANDSHAKE_DONE_FRAME *handshakeDoneFrame, uint8_t *buffer, size_t *bufferLength);
+bool decodeHANDSHAKE_DONE_FRAME(HANDSHAKE_DONE_FRAME *handshakeDoneFrame, uint8_t *buffer, size_t *bufferLength);
 
 typedef struct FRAME{
     uint8_t type;
