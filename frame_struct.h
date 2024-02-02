@@ -236,6 +236,7 @@ typedef struct HANDSHAKE_DONE_FRAME{
 bool encodeHANDSHAKE_DONE_FRAME(HANDSHAKE_DONE_FRAME *handshakeDoneFrame, uint8_t *buffer, size_t *bufferLength);
 bool decodeHANDSHAKE_DONE_FRAME(HANDSHAKE_DONE_FRAME *handshakeDoneFrame, uint8_t *buffer, size_t *bufferLength);
 
+
 typedef struct FRAME{
     uint8_t type;
     int largestAcknowledged;
