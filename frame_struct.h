@@ -11,6 +11,8 @@ Abstract: In this code has the head frame functions and the structs
 */
 
 
+void writeUint64(uint64_t value, uint8_t *buffer);
+
 typedef enum frameType{
     PADDING = 0x00,
     PING= 0x01,
