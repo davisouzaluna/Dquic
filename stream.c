@@ -19,4 +19,17 @@ enum StreamIDType {
 /*The streams frames is necessary to implement the comunication logic. The information on how flow state communication occurs is located in section 3.1 and 3.2 of RFC 9000 */
 
 
-void createFlow()
+//void createFlow(int streamID)
+
+void handleStreamType(StreamIDType type){
+
+    switch (type) {
+        case CLIENT_BIDIRECTIONAL:
+        createFlow(static_cast<int>(type));
+        default:
+            // Caso o tipo não seja reconhecido
+            // Trate isso conforme necessário
+            break;
+    
+    }
+}
