@@ -24,4 +24,4 @@ int UDP_Receive(UDPContext *context, char *buffer, int buffer_length);
 // Function to close the UDP context
 void UDP_Close(UDPContext *context);
 
-#endif
+#endif // UDP_LIBRARY_H

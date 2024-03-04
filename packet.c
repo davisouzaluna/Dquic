@@ -7,6 +7,9 @@
         This file contains the implementation of the packet header. Actually, my reference is the rfc
 
 */
+
+#ifndef _PACKET_C
+#define _PACKET_C
 #include <stdint.h>
 #include <stdio.h> //for printf
 #include <stddef.h> //for NULL
@@ -177,6 +180,8 @@ void versionNegotiationPacket(struct Header *header, QUIC_VERSION_INFO *versionI
     //Actually is imcomplete this package. I need to implement the version negotiation packet logic
 
 };
+
+#endif //_PACKET_C
  
 
 
