@@ -19,3 +19,4 @@ typedef struct {
     uint8_t *legacy_compression_methods; // Variable length, depending on legacy_compression_methods_length
     // You may need to define structs for Extension, depending on your needs
 } ClientHello
+

@@ -33,3 +33,7 @@ void handleStreamType(StreamIDType type){
     
     }
 }
+
+void BidirecionalFlow(){
+    
+}

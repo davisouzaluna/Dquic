@@ -30,5 +30,36 @@ typedef enum{
 typedef struct {
     ExtensionType extension_type;
     uint8_t extension_data[65535] // Variable length, depending on extension_type. Max length is 65535
-}
+} Extension;
+
+
+typedef enum {
+    host_name = 0,
+    reserved = 255
+} NameType;
+
+typedef struct {
+    uint16_t length;
+    uint8_t data[];
+} HostName;
+
+typedef struct {
+    NameType name_type;
+    union {
+        HostName host_name;
+    } name;
+} ServerName;
+
+typedef struct {
+    uint16_t length;
+    ServerName items[];
+} ServerNameList;
+
+typedef enum {
+    mfl_512 = 1,
+    mfl_1024 = 2,
+    mfl_2048 = 3,
+    mfl_4096 = 4,
+    reserved = 255
+} MaxFragmentLength;
 
